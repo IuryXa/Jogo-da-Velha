@@ -8,8 +8,8 @@ using UnityEngine.EventSystems;
 
 public class Controle : MonoBehaviour
 {
-    public TMP_Text xo1;
-    int xo1n = 0;   //Para verificar se o espaço foi utilizado
+    public TMP_Text xo1; //Variavel para inserir "x" ou "o"
+    int xo1n = 0;   //Variavel para verificar se o espaço foi utilizado
     public TMP_Text xo2;
     int xo2n = 0;
     public TMP_Text xo3;
@@ -26,18 +26,18 @@ public class Controle : MonoBehaviour
     int xo8n = 0;
     public TMP_Text xo9;
     int xo9n = 0;
-    public GameObject vitoria;
-    public TMP_Text textoVitoria;
+    public GameObject vitoria; //usado para referenciar um "GameObject" na unity
+    public TMP_Text textoVitoria; 
     public GameObject reiniciar;
     public GameObject jogoPrincipal;
     public GameObject escolha;
     public TMP_Text primeiro;
-    private int number = 0;
-    public string jogdadorX;
-    public string CPU;
-    bool turnoPLayer;
-    bool escolheu =false;
-    bool jogoTerminado=false;
+    private int number = 0; //Usado para armazenar quem vai primeiro
+    public string jogdadorX;//Armazenar "x" ou "o" para o jogador
+    public string CPU;//Armazenar "x" ou "o" para o computador
+    bool turnoPLayer;//Verifica se é o turno do jogador
+    bool escolheu =false;//Verifica se o jogador escolheu "x" ou "o"
+    bool jogoTerminado=false;//Verifica se o jogo acabou
 
     void Start()
     {
@@ -64,12 +64,13 @@ public class Controle : MonoBehaviour
 
     void Update()
     {
+		//Se o jogador escolheu "o" ou "x"
         if ((Input.GetButtonDown("Fire1") && EventSystem.current.currentSelectedGameObject.name == "Bolinha"))
         {
             jogdadorX = "o";
             CPU = "x";
-            escolha.SetActive(false);
-            jogoPrincipal.SetActive(true);
+            escolha.SetActive(false);//Desativa o canvas "escolha"
+            jogoPrincipal.SetActive(true);//Ativa o canvas do jogo principal
             escolheu = true;
 
         }
@@ -82,12 +83,12 @@ public class Controle : MonoBehaviour
             escolheu = true;
         }
         //Checar Condições de Vitoria
-        if (xo1n == 2 && xo2n == 2 && xo3n == 2)
+        if (xo1n == 2 && xo2n == 2 && xo3n == 2)//Verifica se a CPU venceu
         {
-            vitoria.SetActive(true);
-            textoVitoria.SetText("A CPU venceu!");
-            reiniciar.SetActive(true);
-            jogoTerminado = true;
+            vitoria.SetActive(true);//Ativa o GameObject "vitoria"
+            textoVitoria.SetText("A CPU venceu!");//Escreve no TMP_Text
+            reiniciar.SetActive(true);//Ativa o botão de reiniciar
+            jogoTerminado = true;//Torna verdadeira a variavel, impossibilitando o jogo de continuar até que seja reiniciado
         }
         else if (xo1n == 2 && xo5n == 2 && xo9n == 2)
         {
@@ -145,9 +146,9 @@ public class Controle : MonoBehaviour
         //Movimentos do Jogador
         if ((Input.GetButtonDown("Fire1") && turnoPLayer && EventSystem.current.currentSelectedGameObject.name == "EspacoCE" && xo1n == 0 &&jogoTerminado==false))
         {
-            xo1.SetText(jogdadorX);
-            turnoPLayer = false;
-            xo1n++;
+            xo1.SetText(jogdadorX);//Insere o "x" na posição indicada
+            turnoPLayer = false;//Indica que o turno do jogador acabou
+            xo1n++;//Indica que o jogador ocupou esse espaço específico
         }
         if ((Input.GetButtonDown("Fire1") && turnoPLayer && EventSystem.current.currentSelectedGameObject.name == "EspacoCM" && xo2n == 0 && jogoTerminado == false))
         {
@@ -198,12 +199,12 @@ public class Controle : MonoBehaviour
             xo9n++;
         }
         //Checar condição de vitoria(Joggador)
-        if (xo1n == 1 && xo2n == 1 && xo3n == 1)
+        if (xo1n == 1 && xo2n == 1 && xo3n == 1)//Verifica se o jogador venceu
         {
-            vitoria.SetActive(true);
-            textoVitoria.SetText("O jogador venceu!");
-            reiniciar.SetActive(true);
-            jogoTerminado = true;
+            vitoria.SetActive(true);//Ativa o GameObject"vitoria"
+            textoVitoria.SetText("O jogador venceu!");//Insere o texto no TMP_Text
+            reiniciar.SetActive(true);//Ativa o botão de reiniciar
+            jogoTerminado = true;//Indica que o jogo acabou
         }
         else if (xo1n == 1 && xo5n == 1 && xo9n == 1)
         {
@@ -261,16 +262,18 @@ public class Controle : MonoBehaviour
             reiniciar.SetActive(true);
             jogoTerminado = true;
         }
-        //CPU
+        //CPU(no primeiro turno, sempre tenta se posicionar no meio)
+		//Verifica se é o turno do jogador, se o espaço está vazio, se o jogador já escolheu "x" ou "o" e se o jogo acabou
         if (turnoPLayer == false && xo5n == 0 && escolheu && jogoTerminado == false)
         {
-            xo5.SetText(CPU);
-            turnoPLayer = true;
-            xo5n += 2;
+            xo5.SetText(CPU);//Insere "x" ou "o"
+            turnoPLayer = true;//Torna a bool verdadeira, indicando que é o turno do jogador
+            xo5n += 2;//É adicionado +2 para diferenciar do jogador
         }
         //CPU verifica se está ganhando
         if (turnoPLayer == false && xo1n == 0 && escolheu && jogoTerminado == false)
         {
+			//Verifica se dois espaços adjacentes ao espaço atual foram preenchidos pela CPU
             if ((xo2n==2 && xo3n==2)||(xo4n ==2 && xo7n==2)||(xo5n==2 && xo9n==2))
             {
             xo1.SetText(CPU);
@@ -344,6 +347,7 @@ public class Controle : MonoBehaviour
         //CPU verifica se está perdendo
         if (turnoPLayer == false && xo1n == 0 && escolheu && jogoTerminado == false)
         {
+			//Verifica se os espaços adjacentes ao espaço atual foram preenchidos pelo jogador
             if ((xo2n == 1 && xo3n == 1) || (xo4n == 1 && xo7n == 1) || (xo5n == 1 && xo9n == 1))
             {
                 xo1.SetText(CPU);
@@ -414,7 +418,7 @@ public class Controle : MonoBehaviour
                 xo8n += 2;
             }
         }
-
+		//Caso a CPU não esteja ganhando ou perdendo, ela preencherá espaços priorizando os cantos
         if (turnoPLayer == false && xo3n == 0 && escolheu && jogoTerminado == false)
         {
             xo3.SetText(CPU);
@@ -470,6 +474,7 @@ public class Controle : MonoBehaviour
             xo8n += 2;
         }
         //Checar empate
+		//Caso todos os espaços estejam preenchidos com um numero igual ou maior que 1, é declarado um empate
         if (xo1n >= 1 && xo2n >= 1 && xo3n >= 1 && xo4n >= 1 && xo5n >= 1 && xo6n >= 1 && xo7n >= 1 && xo8n >= 1 && xo9n >= 1)
         {
             vitoria.SetActive(true);
