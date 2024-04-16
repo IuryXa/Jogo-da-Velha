@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine.EventSystems;
 
 public class Controle : MonoBehaviour
 {
     public TMP_Text xo1; //Variavel para inserir "x" ou "o"
-    int xo1n = 0;   //Variavel para verificar se o espaço foi utilizado
+    int xo1n = 0;   //Variavel para verificar se o espaÃ§o foi utilizado
     public TMP_Text xo2;
     int xo2n = 0;
     public TMP_Text xo3;
@@ -35,7 +34,7 @@ public class Controle : MonoBehaviour
     private int number = 0; //Usado para armazenar quem vai primeiro
     public string jogdadorX;//Armazenar "x" ou "o" para o jogador
     public string CPU;//Armazenar "x" ou "o" para o computador
-    bool turnoPLayer;//Verifica se é o turno do jogador
+    bool turnoPLayer;//Verifica se Ã© o turno do jogador
     bool escolheu =false;//Verifica se o jogador escolheu "x" ou "o"
     bool jogoTerminado=false;//Verifica se o jogo acabou
 
@@ -82,13 +81,13 @@ public class Controle : MonoBehaviour
             jogoPrincipal.SetActive(true);
             escolheu = true;
         }
-        //Checar Condições de Vitoria
+        //Checar CondiÃ§Ãµes de Vitoria
         if (xo1n == 2 && xo2n == 2 && xo3n == 2)//Verifica se a CPU venceu
         {
             vitoria.SetActive(true);//Ativa o GameObject "vitoria"
             textoVitoria.SetText("A CPU venceu!");//Escreve no TMP_Text
-            reiniciar.SetActive(true);//Ativa o botão de reiniciar
-            jogoTerminado = true;//Torna verdadeira a variavel, impossibilitando o jogo de continuar até que seja reiniciado
+            reiniciar.SetActive(true);//Ativa o botÃ£o de reiniciar
+            jogoTerminado = true;//Torna verdadeira a variavel, impossibilitando o jogo de continuar atÃ© que seja reiniciado
         }
         else if (xo1n == 2 && xo5n == 2 && xo9n == 2)
         {
@@ -146,9 +145,9 @@ public class Controle : MonoBehaviour
         //Movimentos do Jogador
         if ((Input.GetButtonDown("Fire1") && turnoPLayer && EventSystem.current.currentSelectedGameObject.name == "EspacoCE" && xo1n == 0 &&jogoTerminado==false))
         {
-            xo1.SetText(jogdadorX);//Insere o "x" na posição indicada
+            xo1.SetText(jogdadorX);//Insere o "x" na posiÃ§Ã£o indicada
             turnoPLayer = false;//Indica que o turno do jogador acabou
-            xo1n++;//Indica que o jogador ocupou esse espaço específico
+            xo1n++;//Indica que o jogador ocupou esse espaÃ§o especÃ­fico
         }
         if ((Input.GetButtonDown("Fire1") && turnoPLayer && EventSystem.current.currentSelectedGameObject.name == "EspacoCM" && xo2n == 0 && jogoTerminado == false))
         {
@@ -198,12 +197,12 @@ public class Controle : MonoBehaviour
             turnoPLayer = false;
             xo9n++;
         }
-        //Checar condição de vitoria(Joggador)
+        //Checar condiÃ§Ã£o de vitoria(Joggador)
         if (xo1n == 1 && xo2n == 1 && xo3n == 1)//Verifica se o jogador venceu
         {
             vitoria.SetActive(true);//Ativa o GameObject"vitoria"
             textoVitoria.SetText("O jogador venceu!");//Insere o texto no TMP_Text
-            reiniciar.SetActive(true);//Ativa o botão de reiniciar
+            reiniciar.SetActive(true);//Ativa o botÃ£o de reiniciar
             jogoTerminado = true;//Indica que o jogo acabou
         }
         else if (xo1n == 1 && xo5n == 1 && xo9n == 1)
@@ -263,17 +262,17 @@ public class Controle : MonoBehaviour
             jogoTerminado = true;
         }
         //CPU(no primeiro turno, sempre tenta se posicionar no meio)
-		//Verifica se é o turno do jogador, se o espaço está vazio, se o jogador já escolheu "x" ou "o" e se o jogo acabou
+		//Verifica se Ã© o turno do jogador, se o espaÃ§o estÃ¡ vazio, se o jogador jÃ¡ escolheu "x" ou "o" e se o jogo acabou
         if (turnoPLayer == false && xo5n == 0 && escolheu && jogoTerminado == false)
         {
             xo5.SetText(CPU);//Insere "x" ou "o"
-            turnoPLayer = true;//Torna a bool verdadeira, indicando que é o turno do jogador
-            xo5n += 2;//É adicionado +2 para diferenciar do jogador
+            turnoPLayer = true;//Torna a bool verdadeira, indicando que Ã© o turno do jogador
+            xo5n += 2;//Ã‰ adicionado +2 para diferenciar do jogador
         }
-        //CPU verifica se está ganhando
+        //CPU verifica se estÃ¡ ganhando
         if (turnoPLayer == false && xo1n == 0 && escolheu && jogoTerminado == false)
         {
-			//Verifica se dois espaços adjacentes ao espaço atual foram preenchidos pela CPU
+			//Verifica se dois espaÃ§os adjacentes ao espaÃ§o atual foram preenchidos pela CPU
             if ((xo2n==2 && xo3n==2)||(xo4n ==2 && xo7n==2)||(xo5n==2 && xo9n==2))
             {
             xo1.SetText(CPU);
@@ -344,10 +343,10 @@ public class Controle : MonoBehaviour
                 xo8n += 2;
             }
         }
-        //CPU verifica se está perdendo
+        //CPU verifica se estÃ¡ perdendo
         if (turnoPLayer == false && xo1n == 0 && escolheu && jogoTerminado == false)
         {
-			//Verifica se os espaços adjacentes ao espaço atual foram preenchidos pelo jogador
+			//Verifica se os espaÃ§os adjacentes ao espaÃ§o atual foram preenchidos pelo jogador
             if ((xo2n == 1 && xo3n == 1) || (xo4n == 1 && xo7n == 1) || (xo5n == 1 && xo9n == 1))
             {
                 xo1.SetText(CPU);
@@ -418,7 +417,7 @@ public class Controle : MonoBehaviour
                 xo8n += 2;
             }
         }
-		//Caso a CPU não esteja ganhando ou perdendo, ela preencherá espaços priorizando os cantos
+		//Caso a CPU nÃ£o esteja ganhando ou perdendo, ela preencherÃ¡ espaÃ§os priorizando os cantos
         if (turnoPLayer == false && xo3n == 0 && escolheu && jogoTerminado == false)
         {
             xo3.SetText(CPU);
@@ -474,7 +473,7 @@ public class Controle : MonoBehaviour
             xo8n += 2;
         }
         //Checar empate
-		//Caso todos os espaços estejam preenchidos com um numero igual ou maior que 1, é declarado um empate
+		//Caso todos os espaÃ§os estejam preenchidos com um numero igual ou maior que 1, Ã© declarado um empate
         if (xo1n >= 1 && xo2n >= 1 && xo3n >= 1 && xo4n >= 1 && xo5n >= 1 && xo6n >= 1 && xo7n >= 1 && xo8n >= 1 && xo9n >= 1)
         {
             vitoria.SetActive(true);
